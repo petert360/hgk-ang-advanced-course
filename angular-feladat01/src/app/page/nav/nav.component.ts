@@ -8,6 +8,8 @@ import { ConfigService } from 'src/app/service/config.service';
 })
 export class NavComponent implements OnInit {
 
+  navigation = this.config.navigation;
+
   constructor(
     private config: ConfigService,
   ) { }

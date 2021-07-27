@@ -36,35 +36,35 @@ export class AuthService {
   }
 
   // küldünk egy egyszrű HHTP kéréset az autentikációt végző szervernek
-login(loginData: User): Observable<{ accessToken: string }> {
-  return this.http.post<{ accessToken: string }>(
-    this.loginUrl,
-    { email: loginData.email, password: loginData.password }
-  )
-// az eredményt tovább pipe-oljuk
-  .pipe( switchMap( response => {
-// ha van accessToken, akkor továbbdobjuk a kérést,
-// és lekérjük az adatokat a userService-segítségével
-    if (response.accessToken) {
-      this.lastToken = response.accessToken;
-      return this.userService.query(`email=${loginData.email}`);
-    }
-    return of(null);
-  }))
-// tovább vizsgáljuk a választ, ha nincs user, akkor töröljük a bejelentkzést
-  .pipe(
-    tap( user => {
-      if (!user) {
-        localStorage.removeItem(this.storageName);
-        this.currentUserSubject.next(null);
-// ha van user, akkor annak adatait frissítem és a localStorage-ban tároljuk
-      } else {
-        user[0].token = this.lastToken;
-        localStorage.setItem(this.storageName, JSON.stringify(user[0]));
-        this.currentUserSubject.next(user[0]);
-      }
-    })
-  );
-}
+  login(loginData: User): Observable<{ accessToken: string }> {
+    return this.http.post<{ accessToken: string }>(
+      this.loginUrl,
+      { email: loginData.email, password: loginData.password }
+    )
+      // az eredményt tovább pipe-oljuk
+      .pipe(switchMap(response => {
+        // ha van accessToken, akkor továbbdobjuk a kérést,
+        // és lekérjük az adatokat a userService-segítségével
+        if (response.accessToken) {
+          this.lastToken = response.accessToken;
+          return this.userService.query(`email=${loginData.email}`);
+        }
+        return of(null);
+      }))
+      // tovább vizsgáljuk a választ, ha nincs user, akkor töröljük a bejelentkzést
+      .pipe(
+        tap(user => {
+          if (!user) {
+            localStorage.removeItem(this.storageName);
+            this.currentUserSubject.next(null);
+            // ha van user, akkor annak adatait frissítem és a localStorage-ban tároljuk
+          } else {
+            user[0].token = this.lastToken;
+            localStorage.setItem(this.storageName, JSON.stringify(user[0]));
+            this.currentUserSubject.next(user[0]);
+          }
+        })
+      );
+  }
 
 }

@@ -6,12 +6,12 @@ import { ForbiddenComponent } from './page/forbidden/forbidden.component';
 import { HomeComponent } from './page/home/home.component';
 import { LoginComponent } from './page/login/login.component';
 import { AuthGuardService } from './service/auth-guard.service';
+import { RoleGuardService } from './service/role-guard.service';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [AuthGuardService],
   },
   {
     path: 'login',
@@ -20,12 +20,19 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 3,
+    },
   },
   {
     path: 'editor',
     component: EditorComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService, RoleGuardService],
+    data: {
+      expectedRole: 2,
+    },
+
   },
   {
     path: 'forbidden',

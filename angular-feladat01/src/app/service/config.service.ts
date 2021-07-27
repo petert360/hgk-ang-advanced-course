@@ -11,6 +11,7 @@ export class ConfigService {
     { label: 'Home', href: '', role: 1 },
     { label: 'Editor', href: '/editor', role: 2 },
     { label: 'Admin', href: '/admin', role: 3 },
+    { label: 'Login', href: '/login', role: 1 },
   ];
 
   constructor() { }

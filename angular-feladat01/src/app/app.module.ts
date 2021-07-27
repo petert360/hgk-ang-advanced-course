@@ -11,6 +11,7 @@ import { NavComponent } from './page/nav/nav.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptorService } from './service/jwt-interceptor.service';
 import { FormsModule } from '@angular/forms';
+import { ForbiddenComponent } from './page/forbidden/forbidden.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     EditorComponent,
     AdminComponent,
     LoginComponent,
-    NavComponent
+    NavComponent,
+    ForbiddenComponent
   ],
   imports: [
     BrowserModule,

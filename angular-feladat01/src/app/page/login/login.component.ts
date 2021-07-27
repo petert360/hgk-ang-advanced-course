@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
     private router: Router,
   ) { }
 
-
   ngOnInit(): void {
   }
 
@@ -32,7 +31,7 @@ export class LoginComponent implements OnInit {
       },
       err => {
         this.serverError = err.error;
-        const to = setTimeout( () => {
+        const to = setTimeout(() => {
           clearTimeout(to);
           this.serverError = '';
         }, 3000);

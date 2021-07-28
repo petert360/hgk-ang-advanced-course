@@ -14,8 +14,8 @@
                     <td *ngFor="let col of cols">
                         {{ user[col.key] }}
                     </td>
-                    <td>
-                        <a class="btn btn-info" (click)="update(user)">
+                     <td>
+                        <a class="btn btn-info" routerLink="/user/edit/{{ user.id }}">
                             <i class="fa fa-pencil"></i>
                         </a>
                     </td>

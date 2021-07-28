@@ -15,6 +15,7 @@ import { UserEditComponent } from './page/user-edit/user-edit.component';
 import { ForbiddenComponent } from './page/forbidden/forbidden.component';
 import { JwtInterceptorService } from './service/jwt-interceptor.service';
 import { FormsModule } from '@angular/forms';
+import { UserEffect } from './store/user/UserEffects';
 
 @NgModule({
   declarations: [

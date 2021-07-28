@@ -5,15 +5,15 @@
       "first_name": "Charlie",
       "last_name": "Firpo",
       "email": "seyden0@merriam-webster.com",
-      "password": "$2a$10$KKzAQMXlYJSq7VMlCKcJb.cIVpW4J22j482HLbglgpvTarJZUQc1C",
+      "password": "$2a$10$Tz.gt7tAbnWcStSLlhLGZe0lS5lWt7.czx1KtWyYLE3vYaaJZ6lEm",
       "role": "2"
     },
     {
       "id": 2,
       "first_name": "Finn",
-      "last_name": "Upjohn",
+      "last_name": "Upjohn2",
       "email": "fupjohn1@paypal.com",
-      "password": "$2a$10$xW1vJhe3xczrnTQOZYlaY.DV/UbYal1.lc2d9ip6tw3.6cWv8XoQ.",
+      "password": "$2a$10$PILXEbWYxKkBXtgXdu4bcO6npzltM.aIeCGdWtpAPFph15bAM2OxO",
       "role": "1"
     },
     {

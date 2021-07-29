@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, withLatestFrom } from 'rxjs/operators';
 import { UserService } from 'src/app/service/user.service';
 import { ERROR_ITEM, getItems, getOneItem, LOAD_ITEMS, LOAD_SELECTED_ITEM } from './UserActions';
 
@@ -26,14 +26,21 @@ export class UserEffect {
         return this.actions$.pipe(
             ofType(getOneItem),
             switchMap(action => this.userService.get(action.id)),
+            withLatestFrom(this.store$),
+            switchMap(([action, store]) => {
+// Innentől hibás az alkalmazás
+                const cache = store.users?.items?.find(item => item.id === action.id);
+                return cache ? of(cache) : this.userService.get(action.id);
+            }),
             switchMap(user => of({ type: LOAD_SELECTED_ITEM, selected: user })),
             catchError(error => of({ type: ERROR_ITEM, message: error })),
         );
     });
-
+    
     constructor(
         private actions$: Actions,
         private userService: UserService,
+        private store$: Store<any>,
     ) { }
 
 }

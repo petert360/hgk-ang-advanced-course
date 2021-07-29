@@ -6,4 +6,4 @@ export class User {
     password?: string;
     role?: number;
     token?: string;
-}
+  }

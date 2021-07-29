@@ -4,7 +4,7 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { UserService } from 'src/app/service/user.service';
-import { getItems } from './UserActions';
+import { ERROR_ITEM, getItems, getOneItem, LOAD_ITEMS, LOAD_SELECTED_ITEM } from './UserActions';
 
 @Injectable()
 export class UserEffect {
@@ -15,10 +15,19 @@ export class UserEffect {
             ofType(getItems),
             switchMap(() => this.userService.get()),
             // olyan formátumra hozzuk őket, ahogy az action megköveteli.
-            switchMap(users => of({ type: '[User] load items', items: users })),
+            switchMap(users => of({ type: LOAD_ITEMS, items: users })),
             // hiba esetén az errorItems eseményt triggerlejük, és elkapjuk a hibát
             // a ''-ben lévő névnek meg kll egyeznie az esemény nevével
-            catchError(error => of({ type: '[User] error item', message: error })),
+            catchError(error => of({ type: ERROR_ITEM, message: error })),
+        );
+    });
+
+    getOneItem$ = createEffect((): Observable<Action> => {
+        return this.actions$.pipe(
+            ofType(getOneItem),
+            switchMap(action => this.userService.get(action.id)),
+            switchMap(user => of({ type: LOAD_SELECTED_ITEM, selected: user })),
+            catchError(error => of({ type: ERROR_ITEM, message: error })),
         );
     });
 

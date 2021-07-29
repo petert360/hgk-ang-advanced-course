@@ -1,11 +1,14 @@
 import { createReducer, on } from "@ngrx/store";
 import { User } from "src/app/model/user";
-import { errorItem, loadItems } from "./UserActions";
+import { errorItem, loadItems, loadSelectedItem } from "./UserActions";
 
 // megmondjuk, hogy a state milyen adatokat tároljon
 // Userek tömbjét és hibákat
+// kiegészítjük a selecteddel
 export interface State {
-    users: { items: User[], error: string };
+    // s: string kulccsal bármilyen értéket fel tudunk venni a state-ben.
+    [x: string]: any;
+    users: { items: User[], selected?: User, error: string };
 }
 
 // létrehozzuk az initial state-et
@@ -19,6 +22,10 @@ export const UserReducer = createReducer(
         ...state,
         items: action.items
     })),
+    on(loadSelectedItem, (state, action) => ({
+        ...state,
+        selected: action.selected
+    })),
     on(errorItem, (state, action) => ({
         ...state,
         error: action.message
@@ -27,3 +34,4 @@ export const UserReducer = createReducer(
 
 export const selectItems = (state: State) => state.users.items;
 export const selectError = (state: State) => state.users.error;
+export const selectOneItem = (state: State) => Object.assign({}, state.users.selected);

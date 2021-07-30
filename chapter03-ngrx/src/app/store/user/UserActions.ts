@@ -7,6 +7,9 @@ export const GET_ONE_ITEM = '[User] get item';
 export const LOAD_ITEMS = '[User] load items';
 export const LOAD_SELECTED_ITEM = '[User] load selected';
 
+export const UPDATE_ITEM = '[User] load selected';
+export const LOAD_UPDATED_ITEM = '[User] load selected';
+
 export const ERROR_ITEM = '[User] error item';
 
 // Actions.
@@ -22,9 +25,20 @@ export const loadItems = createAction(
 );
 
 export const loadSelectedItem = createAction(
-      LOAD_SELECTED_ITEM,
-      props<{selected: User}>()
-    );
+    LOAD_SELECTED_ITEM,
+    props<{ selected: User }>()
+);
+
+export const updateItem = createAction(
+    UPDATE_ITEM,
+    props<{ item: User }>()
+);
+
+export const loadUpdatedItem = createAction(
+    LOAD_UPDATED_ITEM,
+    props<{ item: User }>()
+);
+
 
 export const errorItem = createAction(
     ERROR_ITEM,

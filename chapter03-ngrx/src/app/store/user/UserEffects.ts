@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { UserService } from 'src/app/service/user.service';
 import { addItem, deleteItem, ERROR_ITEM, getItems, getOneItem, LOAD_ADDED_ITEM, LOAD_ITEMS, LOAD_SELECTED_ITEM, LOAD_UPDATED_ITEM, REMOVE_ITEM, updateItem } from './UserActions';
 
@@ -46,17 +46,18 @@ export class UserEffect {
         );
     });
 
-    addItem$ = createEffect((): Observable<Action> => {
-        let lastAction = null;
+    addItem$ = createEffect( (): Observable<Action> => {
+        let lastAcion = null;
         return this.actions$.pipe(
-            ofType(addItem),
-            tap(action => lastAction = action),
-            switchMap(action => this.userService.create(action.item)),
-            switchMap(() => this.userService.query(`email=${lastAction.item.email}`)),
-            switchMap(user => of({ type: LOAD_ADDED_ITEM, item: user })),
-            catchError(error => of({ type: ERROR_ITEM, message: error })),
+          ofType(addItem),
+          tap( action => lastAcion = action ),
+          mergeMap( action => this.userService.create(action.item).pipe(
+            switchMap( () => this.userService.query(`email=${lastAcion.item.email}`) ),
+            switchMap( user => of({ type: LOAD_ADDED_ITEM, item: user })),
+            catchError( error => of({ type: ERROR_ITEM, error })),
+          ) ),
         );
-    });
+      });
 
     deleteItem$ = createEffect((): Observable<Action> => {
         let lastAcion = null;

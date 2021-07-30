@@ -16,6 +16,7 @@ export const LOAD_ADDED_ITEM = '[User] load added';
 export const DELETE_ITEM = '[User] delete item';
 export const REMOVE_ITEM = '[User] remove added';
 
+export const FLUSH_ERROR = '[User] error flush';
 
 export const ERROR_ITEM = '[User] error item';
 
@@ -62,6 +63,8 @@ export const removeDeletedItem = createAction(
     REMOVE_ITEM,
     props<{ item: User }>()
 );
+
+export const errorFlush = createAction(FLUSH_ERROR);
 
 export const errorItem = createAction(
     ERROR_ITEM,

@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { User } from "src/app/model/user";
-import { errorItem, loadAddedItem, loadItems, loadSelectedItem, loadUpdatedItem, removeDeletedItem } from "./UserActions";
+import { errorFlush, errorItem, loadAddedItem, loadItems, loadSelectedItem, loadUpdatedItem, removeDeletedItem } from "./UserActions";
 
 // megmondjuk, hogy a state milyen adatokat tároljon
 // Userek tömbjét és hibákat
@@ -45,7 +45,11 @@ export const UserReducer = createReducer(
     })),
     on(errorItem, (state, action) => ({
         ...state,
-        error: action.error;
+        error: action.error
+    })),
+    on(errorFlush, (state, action) => ({
+        ...state,
+        error: null
     })),
 );
 

@@ -36,4 +36,16 @@ export class UserService {
     return this.http.put<User>(url, user);
   }
 
+  create(user: User): Observable<User> {
+  //összerakjuk az url-t és post-tal elküldjük
+    const url = `${this.config.apiUrl}${this.entity}`;
+    return this.http.post<User>(url, user);
+  }
+
+
+  delete(user: User): Observable<User> {
+    const url = `${this.config.apiUrl}${this.entity}/${user.id}`;
+    return this.http.delete<User>(url);
+  }
+
 }

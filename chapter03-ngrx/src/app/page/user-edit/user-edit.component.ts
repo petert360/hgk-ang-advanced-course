@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
-import { getOneItem } from 'src/app/store/user/UserActions';
+import { getOneItem, updateItem } from 'src/app/store/user/UserActions';
 import { selectOneItem } from 'src/app/store/user/UserReducer';
 
 @Component({

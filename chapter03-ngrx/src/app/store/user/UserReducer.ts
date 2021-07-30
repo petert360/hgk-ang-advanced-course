@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { User } from "src/app/model/user";
-import { errorItem, loadItems, loadSelectedItem, loadUpdatedItem } from "./UserActions";
+import { errorItem, loadAddedItem, loadItems, loadSelectedItem, loadUpdatedItem } from "./UserActions";
 
 // megmondjuk, hogy a state milyen adatokat tároljon
 // Userek tömbjét és hibákat
@@ -34,6 +34,10 @@ export const UserReducer = createReducer(
             newItems[i] = action.item;
             return newItems;
         })(state)
+    })),
+    on(loadAddedItem, (state, action) => ({
+        ...state,
+        items: (state.items as User[]).concat(action.item)
     })),
     on(errorItem, (state, action) => ({
         ...state,

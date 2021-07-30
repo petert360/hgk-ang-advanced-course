@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { UserService } from 'src/app/service/user.service';
-import { ERROR_ITEM, getItems, getOneItem, LOAD_ITEMS, LOAD_SELECTED_ITEM, LOAD_UPDATED_ITEM, updateItem } from './UserActions';
+import { addItem, ERROR_ITEM, getItems, getOneItem, LOAD_ADDED_ITEM, LOAD_ITEMS, LOAD_SELECTED_ITEM, LOAD_UPDATED_ITEM, updateItem } from './UserActions';
 
 @Injectable()
 export class UserEffect {
@@ -45,6 +45,20 @@ export class UserEffect {
             catchError(error => of({ type: ERROR_ITEM, message: error })),
         );
     });
+
+    addItem$ = createEffect((): Observable<Action> => {
+        let lastAction = null;
+        return this.actions$.pipe(
+            ofType(addItem),
+            tap(action => lastAction = action),
+            switchMap(action => this.userService.create(action.item)),
+            switchMap(() => this.userService.query(`email=${lastAction.item.email}`)),
+            switchMap(user => of({ type: LOAD_ADDED_ITEM, item: user })),
+            catchError(error => of({ type: ERROR_ITEM, message: error })),
+        );
+    });
+
+
 
     constructor(
         private actions$: Actions,

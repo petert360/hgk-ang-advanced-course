@@ -4,7 +4,7 @@ import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { UserService } from 'src/app/service/user.service';
-import { addItem, ERROR_ITEM, getItems, getOneItem, LOAD_ADDED_ITEM, LOAD_ITEMS, LOAD_SELECTED_ITEM, LOAD_UPDATED_ITEM, updateItem } from './UserActions';
+import { addItem, deleteItem, ERROR_ITEM, getItems, getOneItem, LOAD_ADDED_ITEM, LOAD_ITEMS, LOAD_SELECTED_ITEM, LOAD_UPDATED_ITEM, REMOVE_ITEM, updateItem } from './UserActions';
 
 @Injectable()
 export class UserEffect {
@@ -58,6 +58,16 @@ export class UserEffect {
         );
     });
 
+    deleteItem$ = createEffect((): Observable<Action> => {
+        let lastAcion = null;
+        return this.actions$.pipe(
+            ofType(deleteItem),
+            tap(action => lastAcion = action),
+            switchMap(action => this.userService.delete(action.item)),
+            switchMap(user => of({ type: REMOVE_ITEM, item: lastAcion.item })),
+            catchError(error => of({ type: ERROR_ITEM, message: error })),
+        );
+    });
 
 
     constructor(

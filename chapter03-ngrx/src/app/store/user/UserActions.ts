@@ -13,6 +13,10 @@ export const LOAD_UPDATED_ITEM = '[User] load selected';
 export const ADD_ITEM = '[User] add item';
 export const LOAD_ADDED_ITEM = '[User] load added';
 
+export const DELETE_ITEM = '[User] delete item';
+export const REMOVE_ITEM = '[User] remove added';
+
+
 export const ERROR_ITEM = '[User] error item';
 
 // Actions.
@@ -50,9 +54,16 @@ export const loadAddedItem = createAction(
     LOAD_ADDED_ITEM,
     props<{ item: User }>()
 );
-
+export const deleteItem = createAction(
+    DELETE_ITEM,
+    props<{ item: User }>()
+);
+export const removeDeletedItem = createAction(
+    REMOVE_ITEM,
+    props<{ item: User }>()
+);
 
 export const errorItem = createAction(
     ERROR_ITEM,
-    props<{ message: string }>()
+    props<{ error: any }>()
 );
